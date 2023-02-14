@@ -1,4 +1,5 @@
-main.c:65:5:main	40	static
-main.c:124:6:SystemClock_Config	88	static
-main.c:165:6:HAL_UART_RxCpltCallback	16	static
-main.c:179:6:Error_Handler	4	static,ignoring_inline_asm
+main.c:31:5:_write	24	static
+main.c:73:5:main	16	static
+main.c:130:6:SystemClock_Config	88	static
+main.c:171:6:HAL_UART_RxCpltCallback	16	static
+main.c:185:6:Error_Handler	4	static,ignoring_inline_asm
