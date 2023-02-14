@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "LED.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -93,7 +93,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  HAL_GPIO_TogglePin(LED_BLUE_PORT, LED_BLUE_PIN|LED_GREEN_PIN|LED_ORANGE_PIN|LED_RED_PIN);
+	  HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
