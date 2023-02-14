@@ -28,7 +28,6 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -43,7 +42,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint8_t uart2_rx_data = 0;
+uint8_t uart2_rx_flag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -88,13 +88,13 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  HAL_UART_Receive_IT(&huart2, &uart2_rx_data, 1);
+
 	for(int i=0;i<6;i++)
 	{
 		HAL_GPIO_TogglePin(LED_BLUE_PORT, LED_BLUE_PIN|LED_GREEN_PIN|LED_ORANGE_PIN|LED_RED_PIN);
 		HAL_Delay(300);
 	}
-
-	uint8_t data[] = "hello world\n";
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -104,8 +104,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		HAL_UART_Transmit(&huart2, data, sizeof(data), 1);
-		HAL_Delay(1000);
+		if(uart2_rx_flag == 1)
+		{
+			uart2_rx_flag = 0;
+			HAL_UART_Transmit(&huart2, &uart2_rx_data, sizeof(uart2_rx_data), 1);
+		}
+
 	}
   /* USER CODE END 3 */
 }
@@ -155,7 +159,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	 if (huart->Instance == USART2)
+	  {
+	      HAL_UART_Receive_IT(&huart2, &uart2_rx_data, 1);
+	      uart2_rx_flag = 1;
+	  }
+}
 /* USER CODE END 4 */
 
 /**
