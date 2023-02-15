@@ -107,7 +107,7 @@ int main(void)
 	{
 		while(1)
 		{
-			HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+			HAL_GPIO_TogglePin(LED_BLUE_PORT, LED_BLUE_PIN);
 			HAL_Delay(100);
 		}
 	}

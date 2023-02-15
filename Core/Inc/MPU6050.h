@@ -50,5 +50,5 @@ int MPU6050_Initialization(void);
 void MPU6050_Get6AxisRawData(Struct_MPU6050* mpu6050);
 int MPU6050_DataReady(void);
 void MPU6050_Get_LSB_Sensitivity(uint8_t FS_SCALE_GYRO, uint8_t FS_SCALE_ACC);
-void MPU6050_DATA_CONVERT(Struct_MPU6050* mpu6050);
+void MPU6050_DataConvert(Struct_MPU6050* mpu6050);
 
