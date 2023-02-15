@@ -157,7 +157,7 @@ void MPU6050_Get_LSB_Sensitivity(uint8_t FS_SCALE_GYRO, uint8_t FS_SCALE_ACC)
 }
 
 
-void MPU6050_DATA_CONVERT(Struct_MPU6050* mpu6050)
+void MPU6050_DataConvert(Struct_MPU6050* mpu6050)
 {
 	//printf("LSB_Sensitivity_GYRO: %f, LSB_Sensitivity_ACC: %f\n",LSB_Sensitivity_GYRO,LSB_Sensitivity_ACC);
 	mpu6050->acc_x = mpu6050->acc_x_raw / LSB_Sensitivity_ACC;
