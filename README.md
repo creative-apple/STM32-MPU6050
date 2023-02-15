@@ -1,10 +1,10 @@
 # STM32-disc-mpu6050
 
-This is a project that helps you get sensor datas from MPU6050.
+This project would help you to get sensor data from MPU6050.
 
 When the data ready, INT Pin will be latched(active high).
 In the while loop you will constantly check INT Pin status.
-And if INT Pin latched, you will get 6 axis datas from register.
+And if INT Pin latched, you will get 6 axis data from register.
 
 Start and initialize the I2C bus.
 
@@ -33,7 +33,7 @@ Initialize MPU6050 sensor inside of int main(void) function.
   /* USER CODE END 2 */
   ```
  
-Get sensor datas when the datas are ready.
+Get sensor data when the data is ready.
 ```
 	while (1)
 	{
