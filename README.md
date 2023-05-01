@@ -63,7 +63,7 @@ In the main.c file, include header file.
 ```
 
 
-Initialize MPU6050 sensor inside of int main(void) function.
+Initialize MPU6050 sensor inside in between USER CODE 2
   ```
   /* USER CODE BEGIN 2 */
   MPU6050_Initialization();
@@ -71,7 +71,7 @@ Initialize MPU6050 sensor inside of int main(void) function.
   ```
  
  
-Get sensor data when the data is ready.
+When data is ready, Get sensor data!
 
 ```
   /* USER CODE BEGIN WHILE */
@@ -142,7 +142,7 @@ int _write(int file, uint8_t* p, int len)
 ```
 
 ## P.S.2
-it's recommand you not to use bluepill board if it uses fake chip.
+I recommand you not to use bluepill board if it uses fake chip.
 
 I tried with 3 different fake bluepill board. but all of the attempt failed.
 
