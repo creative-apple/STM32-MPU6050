@@ -1,3 +1,5 @@
+#MPU6050 with STM32
+
 This is a step by step approach to get sensor data from MPU6050.
 
 
@@ -96,6 +98,9 @@ you can get sensor data like this.
 
 ## P.S.1
 To use 'printf' you need to activate USART port.
+
+![USART2_Configuration](./img/USART2_Configuration.PNG)
+
 Add this code to use USART2
 ```
 /* USER CODE BEGIN PTD */
