@@ -1,17 +1,17 @@
-#MPU6050 with STM32
+# MPU6050 with STM32
 
 This is a step by step approach to get sensor data from MPU6050.
 
 
 # Supplies
--STM32 board(Any board would be fine, but I used STM32F411 discovery board)
+-Any STM32 board(I used STM32F411 discovery board)
 
 -GY-521
 
 ![brif_img](./img/brif_img.jpg)
 
 # Procedure
-When the data get ready, INT Pin will be latched(active high).
+When the data get ready, INT Pin of GY-521 will be latched(active high).
 
 In the while loop, you will constantly check INT Pin status.
 
@@ -19,7 +19,7 @@ And if INT Pin latched, you will get 6 axis data from register.
 
 # PIN Connection
 
-GY-521
+## GY-521
 ```
 VCC - 5V
 GND - GND
@@ -32,6 +32,7 @@ INT - PB5
 Start and initialize the I2C bus.
 
 ![I2C1 configuration](./img/I2C1_Configuration.PNG)
+
 
 Activate PB5 as GPIO_Input to check INT Pin status from GY-521
 
@@ -116,10 +117,8 @@ int _write(int file, uint8_t* p, int len)
 ```
 
 ## P.S.2
-At the beginning of this project, I used GY-521 module. but it didn't worked well.
+it's recommand you not to use bluepill board if it uses fake chip.
 
-If you intentionally Latch INT Pin always high, you can still get sensor data but I endup changed module into GY-86.
-
-Because this opertation is not what I wanted.
+I tried with 3 different fake bluepill board. but all of the attempt failed.
 
 
