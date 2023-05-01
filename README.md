@@ -3,12 +3,16 @@
 This project would help you to get sensor data from MPU6050.
 
 When the data ready, INT Pin will be latched(active high).
-In the while loop you will constantly check INT Pin status.
+In the while loop, you will constantly check INT Pin status.
 And if INT Pin latched, you will get 6 axis data from register.
 
 Start and initialize the I2C bus.
 
+![I2C setting](./img/I2C%20setting.PNG)
+
 Also activate GPIO_Input at PB5 Pin.
+
+![GPIO setting](./img/gpio%20setting.PNG)
 
 Copy the (MPU6050.c, MPU6050.h) to (Src, Inc) respectively.
 
@@ -51,5 +55,8 @@ Get sensor data when the data is ready.
   /* USER CODE END 3 */
 }
 ```
- 
+
+you can get sensor data like this.
+
+![sensor data](./img/sensor%20data.PNG)
   
