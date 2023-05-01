@@ -72,6 +72,7 @@ Initialize MPU6050 sensor inside of int main(void) function.
  
  
 Get sensor data when the data is ready.
+
 ```
   /* USER CODE BEGIN WHILE */
 	while (1)
@@ -89,6 +90,30 @@ Get sensor data when the data is ready.
 	}
   /* USER CODE END 3 */
 }
+```
+
+When 'MPU6050_ProcessData(&MPU6050);' function excuted, data will be stored in structure.
+
+you can see a definition of the structure in the MPU6050.h file.
+
+```
+typedef struct _MPU6050{
+	short acc_x_raw;
+	short acc_y_raw;
+	short acc_z_raw;
+	short temperature_raw;
+	short gyro_x_raw;
+	short gyro_y_raw;
+	short gyro_z_raw;
+
+	float acc_x;
+	float acc_y;
+	float acc_z;
+	float temperature;
+	float gyro_x;
+	float gyro_y;
+	float gyro_z;
+}Struct_MPU6050;
 ```
 
 
