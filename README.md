@@ -1,20 +1,56 @@
-# STM32-disc-mpu6050
+This is a step by step approach to get sensor data from MPU6050.
 
-This project would help you to get sensor data from MPU6050.
 
-When the data ready, INT Pin will be latched(active high).
+# Supplies
+-STM32 board(Any board would be fine, but I used STM32F411 discovery board)
+
+-GY-521
+
+![brif_img](./img/brif_img.jpg)
+
+# Procedure
+When the data get ready, INT Pin will be latched(active high).
+
 In the while loop, you will constantly check INT Pin status.
+
 And if INT Pin latched, you will get 6 axis data from register.
 
+# PIN Connection
+
+GY-521
+```
+VCC - 5V
+GND - GND
+SDA - PB7
+SCL - PB6
+INT - PB5
+```
+
+# IOC Setup
 Start and initialize the I2C bus.
 
-![I2C setting](./img/I2C%20setting.PNG)
+![I2C1 configuration](./img/I2C1_Configuration.PNG)
 
-Also activate GPIO_Input at PB5 Pin.
+Activate PB5 as GPIO_Input to check INT Pin status from GY-521
 
-![GPIO setting](./img/gpio%20setting.PNG)
+![PB5 activate as GPIO_Input](./img/PB5_Activation.PNG)
+
+
+See the Project Manager and Check the check box like this.
+
+![Code Generator](./img/Code_Generator.PNG)
+
+
+Check that you are using HAL driver for I2C.
+
+![I2C1 HAL driver](./img/I2C1_HAL_Driver.PNG)
+
+Generate code by pressing CTRL+S.
+
+# Code Setup
 
 Copy the (MPU6050.c, MPU6050.h) to (Src, Inc) respectively.
+
 
 In the main.c file, include header file.
 ```
@@ -23,40 +59,62 @@ In the main.c file, include header file.
 /* USER CODE END Includes */
 ```
 
+
 Initialize MPU6050 sensor inside of int main(void) function.
   ```
   /* USER CODE BEGIN 2 */
-	if(MPU6050_Initialization() == 1)
-	{
-		while(1)
-		{
-			HAL_GPIO_TogglePin(LED_BLUE_PORT, LED_BLUE_PIN);
-			HAL_Delay(100);
-		}
-	}
+  MPU6050_Initialization();
   /* USER CODE END 2 */
   ```
  
+ 
 Get sensor data when the data is ready.
 ```
+  /* USER CODE BEGIN WHILE */
 	while (1)
 	{
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
 		if(MPU6050_DataReady() == 1)
 		{
-			MPU6050_Get6AxisRawData(&MPU6050);
-			MPU6050_DATA_CONVERT(&MPU6050);
-//			printf("%f, %f, %f\n", MPU6050.acc_x, MPU6050.acc_y, MPU6050.acc_z);
-			printf("%f, %f, %f\n", MPU6050.gyro_x, MPU6050.gyro_y, MPU6050.gyro_z);
-//			printf("%d, %d, %d\n", MPU6050.acc_x_raw, MPU6050.acc_y_raw, MPU6050.acc_z_raw);
+			MPU6050_ProcessData(&MPU6050);
+			//printf("%f, %f, %f\n", MPU6050.acc_x, MPU6050.acc_y, MPU6050.acc_z);
+			//printf("%f, %f, %f\n", MPU6050.gyro_x, MPU6050.gyro_y, MPU6050.gyro_z);
+			printf("%d, %d, %d\n", MPU6050.acc_x_raw, MPU6050.acc_y_raw, MPU6050.acc_z_raw);
 		}
 	}
   /* USER CODE END 3 */
 }
 ```
 
+
 you can get sensor data like this.
 
-![sensor data](./img/sensor%20data.PNG)
-  
+![Sensor data](./img/Sensor_Data.PNG)
+
+
+## P.S.1
+To use 'printf' you need to activate USART port.
+Add this code to use USART2
+```
+/* USER CODE BEGIN PTD */
+int _write(int file, uint8_t* p, int len)
+{
+	if(HAL_UART_Transmit(&huart2, p, len, len) == HAL_OK )
+	{
+		return len;
+	}
+	return 0;
+}
+/* USER CODE END PTD */
+```
+
+## P.S.2
+At the beginning of this project, I used GY-521 module. but it didn't worked well.
+
+If you intentionally Latch INT Pin always high, you can still get sensor data but I endup changed module into GY-86.
+
+Because this opertation is not what I wanted.
+
+
