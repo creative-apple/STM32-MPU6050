@@ -27,10 +27,9 @@ void MPU6050_Readbytes(uint8_t reg_addr, uint8_t len, uint8_t* data)
 	HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, reg_addr, I2C_MEMADD_SIZE_8BIT, data, len, 1);
 }
 
-int MPU6050_Initialization(void)
+void MPU6050_Initialization(void)
 {
 	HAL_Delay(50);
-
 	uint8_t who_am_i = 0;
 	printf("Checking MPU6050...\n");
 
@@ -41,9 +40,13 @@ int MPU6050_Initialization(void)
 	}
 	else
 	{
-		printf("ERROR!!\n");
+		printf("ERROR!\n");
 		printf("MPU6050 who_am_i : 0x%02x should be 0x68\n", who_am_i);
-		return 1;
+		while(1)
+		{
+			printf("who am i error. Can not recognize mpu6050\n");
+			HAL_Delay(100);
+		}
 	}
 
 	//Reset the whole module before initialization
@@ -58,7 +61,7 @@ int MPU6050_Initialization(void)
 
 	//Sample rate divider
 	/*Sample Rate = Gyroscope Output Rate / (1 + SMPRT_DIV) */
-	//MPU6050_Writebyte(MPU6050_SMPRT_DIV, 0x00); // ACC output rate is 1kHz, GYRO output rate is 8kHz
+	//	MPU6050_Writebyte(MPU6050_SMPRT_DIV, 0x00); // ACC output rate is 1kHz, GYRO output rate is 8kHz
 	MPU6050_Writebyte(MPU6050_SMPRT_DIV, 39); // Sample Rate = 200Hz
 	HAL_Delay(50);
 
@@ -103,9 +106,8 @@ int MPU6050_Initialization(void)
 	HAL_Delay(50);
 
 	printf("MPU6050 setting is finished\n");
-	return 0;
 }
-
+/*Get Raw Data from sensor*/
 void MPU6050_Get6AxisRawData(Struct_MPU6050* mpu6050)
 {
 	uint8_t data[14];
@@ -156,7 +158,7 @@ void MPU6050_Get_LSB_Sensitivity(uint8_t FS_SCALE_GYRO, uint8_t FS_SCALE_ACC)
 	}
 }
 
-
+/*Convert Unit. acc_raw -> g, gyro_raw -> degree per second*/
 void MPU6050_DataConvert(Struct_MPU6050* mpu6050)
 {
 	//printf("LSB_Sensitivity_GYRO: %f, LSB_Sensitivity_ACC: %f\n",LSB_Sensitivity_GYRO,LSB_Sensitivity_ACC);
@@ -197,5 +199,10 @@ int MPU6050_DataReady(void)
 	return HAL_GPIO_ReadPin(MPU6050_INT_PORT, MPU6050_INT_PIN);
 }
 
+void MPU6050_ProcessData(Struct_MPU6050* mpu6050)
+{
+	MPU6050_Get6AxisRawData(mpu6050);
+	MPU6050_DataConvert(mpu6050);
+}
 
 

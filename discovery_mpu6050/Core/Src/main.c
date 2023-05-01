@@ -24,7 +24,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "LED.h"
 #include "MPU6050.h"
 /* USER CODE END Includes */
 
@@ -100,22 +99,9 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_UART_Receive_IT(&huart2, &uart2_rx_data, 1);
 
+	MPU6050_Initialization();
 
-	if(MPU6050_Initialization() == 1)
-	{
-		while(1)
-		{
-			HAL_GPIO_TogglePin(LED_BLUE_PORT, LED_BLUE_PIN);
-			HAL_Delay(100);
-		}
-	}
-	for(int i=0;i<6;i++)
-	{
-		HAL_GPIO_TogglePin(LED_BLUE_PORT, LED_BLUE_PIN|LED_GREEN_PIN|LED_ORANGE_PIN|LED_RED_PIN);
-		HAL_Delay(300);
-	}
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -125,19 +111,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//		if(uart2_rx_flag == 1)
-//		{
-//			uart2_rx_flag = 0;
-//			HAL_UART_Transmit(&huart2, &uart2_rx_data, sizeof(uart2_rx_data), 1);
-//		}
 
 		if(MPU6050_DataReady() == 1)
 		{
-			MPU6050_Get6AxisRawData(&MPU6050);
-			MPU6050_DataConvert(&MPU6050);
-			printf("%f, %f, %f\n", MPU6050.acc_x, MPU6050.acc_y, MPU6050.acc_z);
-//			printf("%f, %f, %f\n", MPU6050.gyro_x, MPU6050.gyro_y, MPU6050.gyro_z);
-//			printf("%d, %d, %d\n", MPU6050.acc_x_raw, MPU6050.acc_y_raw, MPU6050.acc_z_raw);
+			MPU6050_ProcessData(&MPU6050);
+			//printf("%f, %f, %f\n", MPU6050.acc_x, MPU6050.acc_y, MPU6050.acc_z);
+			//printf("%f, %f, %f\n", MPU6050.gyro_x, MPU6050.gyro_y, MPU6050.gyro_z);
+			printf("%d, %d, %d\n", MPU6050.acc_x_raw, MPU6050.acc_y_raw, MPU6050.acc_z_raw);
 		}
 
 
@@ -192,11 +172,11 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	 if (huart->Instance == USART2)
-	  {
-	      HAL_UART_Receive_IT(&huart2, &uart2_rx_data, 1);
-	      uart2_rx_flag = 1;
-	  }
+	if (huart->Instance == USART2)
+	{
+		HAL_UART_Receive_IT(&huart2, &uart2_rx_data, 1);
+		uart2_rx_flag = 1;
+	}
 }
 /* USER CODE END 4 */
 

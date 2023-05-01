@@ -46,9 +46,10 @@ void MPU6050_Writebyte(uint8_t reg_addr, uint8_t val);
 void MPU6050_Writebytes(uint8_t reg_addr, uint8_t len, uint8_t* data);
 void MPU6050_Readbyte(uint8_t reg_addr, uint8_t* data);
 void MPU6050_Readbytes(uint8_t reg_addr, uint8_t len, uint8_t* data);
-int MPU6050_Initialization(void);
+void MPU6050_Initialization(void);
 void MPU6050_Get6AxisRawData(Struct_MPU6050* mpu6050);
 int MPU6050_DataReady(void);
 void MPU6050_Get_LSB_Sensitivity(uint8_t FS_SCALE_GYRO, uint8_t FS_SCALE_ACC);
 void MPU6050_DataConvert(Struct_MPU6050* mpu6050);
+void MPU6050_ProcessData(Struct_MPU6050* mpu6050);
 
